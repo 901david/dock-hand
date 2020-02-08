@@ -1,5 +1,5 @@
-import * as React from "react";
-import * as classNames from "classnames";
+import React from "react";
+import classNames from "classnames";
 import { useMappedState, valueSetter } from "react-use-mapped-state";
 
 import { Modal } from "./modal";

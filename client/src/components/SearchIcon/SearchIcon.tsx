@@ -193,7 +193,7 @@ const SearchBarIcon: React.FC<SearchBarIconBaseProps> = props => {
       uniqueId={props.uniqueId}
     >
       <div
-        title={props.disabled && "Cannot search when no logs are present"}
+        title={props.disabled ? "Cannot search when no logs are present" : ""}
         className={`search-container`}
       >
         <input

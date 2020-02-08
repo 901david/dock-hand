@@ -1,8 +1,7 @@
 import * as React from "react";
 import * as _ from "lodash";
-import * as io from "socket.io-client";
 import { useMappedState } from "react-use-mapped-state";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faExpandAlt,
@@ -16,8 +15,7 @@ import {
 
 import SearchIcon from "./SearchIcon";
 import { StartStopIcon } from "./StartStop/StartStop";
-
-const socket = io.connect();
+import { socket } from "../App";
 
 interface IContainerListItemWrapperProps {
   isLarge: boolean;
@@ -329,9 +327,9 @@ export const ContainerListItem: React.FC<Container> = ({
     });
   }, []);
 
-  React.useEffect(() => {
-    updateLogScroll();
-  }, [logStreams]);
+  // React.useEffect(() => {
+  //   updateLogScroll();
+  // }, [logStreams]);
 
   const infoQFApplied = quickFiltersOpen && quickFilterData.INFO;
   const warnQFApplied = quickFiltersOpen && quickFilterData.WARN;
@@ -347,12 +345,17 @@ export const ContainerListItem: React.FC<Container> = ({
 
   const reg = new RegExp(`${filterToUse.join("|")}`, "g");
 
-  const dataToUse =
-    inputText.length !== 0 || quickFiltersApplied
-      ? logStreams.filter((stream: string) =>
-          stream.match(reg) ? stream.match(reg).length > 0 : false
-        )
-      : logStreams;
+  // const dataToUse =
+  //   inputText.length !== 0 || quickFiltersApplied
+  //     ? logStreams.filter((stream: string) => {
+  //         if (stream === null || stream === undefined) return false;
+  //         return stream.match(reg) !== null
+  //           ? stream.match(reg).length > 0
+  //           : false;
+  //       })
+  //     : logStreams;
+
+  const dataToUse = logStreams;
 
   const changeSize = (isLarge: boolean) => {
     valueSetter("isLarge", !isLarge);
@@ -369,7 +372,7 @@ export const ContainerListItem: React.FC<Container> = ({
       inputRef.current.style.display = "none";
       copySuccessRef.current.style.opacity = "1";
       setTimeout(() => {
-        copySuccessRef.current.style.opacity = "0";
+        if (copySuccessRef.current) copySuccessRef.current.style.opacity = "0";
       }, 2000);
     }
   };
@@ -410,7 +413,7 @@ export const ContainerListItem: React.FC<Container> = ({
     valueSetter("quickFiltersOpen", !quickFiltersOpen);
   };
 
-  console.log(volumes);
+  console.log("render");
 
   return (
     <ContainerListItemWrapper isLarge={isLarge} className="give-transition">
@@ -522,7 +525,7 @@ export const ContainerListItem: React.FC<Container> = ({
             <PortsWrapper>
               {ports.length > 0
                 ? ports.map((portObj: Port) => {
-                    return Object.keys(portObj).map((portData: keyof Port) => {
+                    return Object.keys(portObj).map((portData: string) => {
                       return <span style={{ margin: "3px" }}>{portData}</span>;
                     });
                   })

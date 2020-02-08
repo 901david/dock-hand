@@ -19,7 +19,7 @@ export const Modal: React.FC<ModalProperties> = ({
   const onPrimaryButtonClick = () => {
     if (onButtonClicked) {
       if (onButtonClicked() !== false) {
-        $(modalElementId).modal("hide");
+        ($(modalElementId) as any).modal("hide");
       }
     }
   };

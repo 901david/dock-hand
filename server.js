@@ -6,12 +6,22 @@ const io = require("socket.io")(server);
 const docker = require("./dockerapi");
 const stream = require("stream");
 const morgan = require("morgan");
+const proxy = require("http-proxy-middleware");
 
 const PORT = 5642;
 
 const openLogStreams = new Map();
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
+
+// proxy websocket
+app.use(
+  proxy("/socket.io", {
+    target: "http://localhost:4000/",
+    changeOrigin: true,
+    ws: true
+  })
+);
 
 app.get("*", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
@@ -32,7 +42,10 @@ io.on("connection", socket => {
     const container = docker.getContainer(args.id);
 
     if (container) {
-      container.start((err, data) => refreshContainers());
+      container.start((err, data) => {
+        if (err) throw err;
+        refreshContainers();
+      });
     }
   });
 
@@ -93,6 +106,7 @@ io.on("connection", socket => {
       container.remove((err, data) => {
         if (err) io.emit("container.removed_fail", { err });
         io.emit("container.removed_success", { data });
+        refreshContainers();
       });
       return;
     }
@@ -104,10 +118,9 @@ io.on("connection", socket => {
       if (!err)
         container.start((err, data) => {
           if (err) socket.emit("image.error", { message: err });
+          refreshContainers();
         });
       else socket.emit("image.error", { message: err });
     });
   });
 });
-
-setInterval(refreshContainers, 2000);

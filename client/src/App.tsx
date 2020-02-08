@@ -1,26 +1,69 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import * as _ from "lodash";
+import io from "socket.io-client";
 
-const App = () => {
+import styled from "styled-components";
+import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
+
+import NavBar from "./components/NavBar";
+import Dashboard from "./components/Dashboard";
+import { NewContainerDialog } from "./components/newContainerModal";
+
+const Header = styled.div`
+  background: black;
+  width: 100vw;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 25px;
+  padding-right: 25px;
+
+  img {
+    width: 100px;
+    height: 100px;
+    margin-left: 10%;
+  }
+`;
+
+const AppTitle = styled.h1`
+  color: white;
+  font-size: 45px;
+`;
+
+export const socket = io.connect();
+
+export const App: React.FC<{}> = () => {
+  const onRunImage = (name: String): void => {
+    socket.emit("image.run", { name });
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <Header>
+          <AppTitle>DockHand</AppTitle>
+          <img src="https://i.ya-webdesign.com/images/transparent-whale-docker-2.png" />
+        </Header>
+        <NavBar />
+        <Route exact path="/" component={() => <Redirect to="/dashboard" />} />
+        <Route exact path="/dashboard" component={() => <Dashboard />} />
+        {/* <Route
+          exact
+          path="/new/container"
+          component={() => <p>New Container just trigger model</p>}
+        /> */}
+        <Route
+          exact
+          path="/cluster/start"
+          component={() => <p>Cluster Start</p>}
+        />
+        <Route
+          exact
+          path="/cluster/create"
+          component={() => <p>Cluster Create</p>}
+        />
+        <NewContainerDialog id="newContainerModal" onRunImage={onRunImage} />
+      </div>
+    </Router>
   );
-}
-
-export default App;
+};

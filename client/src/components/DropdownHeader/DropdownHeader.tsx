@@ -52,8 +52,10 @@ const DropdownHeader: React.FC<DropdownHeaderProps> = ({ title, children }) => {
   const [{ isOpen }, valueSetter] = useMappedState(initialDropdownHeaderState);
 
   const handleArrowClick = (): void => {
-    containerListRef.current.style.height = isOpen ? "0" : "70rem";
-    valueSetter("isOpen", !isOpen);
+    if (containerListRef.current) {
+      containerListRef.current.style.height = isOpen ? "0" : "70rem";
+      valueSetter("isOpen", !isOpen);
+    }
   };
 
   return (
