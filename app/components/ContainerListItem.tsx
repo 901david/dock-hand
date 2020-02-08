@@ -15,7 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import SearchIcon from "./SearchIcon";
-import StartStopIcon from "./StartStop";
+import { StartStopIcon } from "./StartStop/StartStop";
 
 const socket = io.connect();
 

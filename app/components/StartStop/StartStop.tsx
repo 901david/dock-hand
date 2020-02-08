@@ -32,7 +32,7 @@ const Background = styled.div<{ type: "start" | "stop" }>`
   }
 `;
 
-const StartStopIcon: React.FC<IStartStopIconProps> = ({
+export const StartStopIcon: React.FC<IStartStopIconProps> = ({
   type,
   handleAction,
   icon,
@@ -50,5 +50,3 @@ const StartStopIcon: React.FC<IStartStopIconProps> = ({
     </Background>
   );
 };
-
-export default StartStopIcon;
