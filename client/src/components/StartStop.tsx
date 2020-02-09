@@ -24,7 +24,6 @@ const Background = styled.div<{ type: "start" | "stop" }>`
   justify-content: center;
   align-items: center;
   margin-left: 10px;
-
   > svg {
     color: white;
     font-size: 20px;
@@ -32,7 +31,7 @@ const Background = styled.div<{ type: "start" | "stop" }>`
   }
 `;
 
-export const StartStopIcon: React.FC<IStartStopIconProps> = ({
+export const StartStop: React.FC<IStartStopIconProps> = ({
   type,
   handleAction,
   icon,

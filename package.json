@@ -1,31 +1,28 @@
 {
   "name": "dock-hand",
   "version": "1.0.0",
-  "description": "a basic docker dashboard built with . react, typescript, socket.io, and . docker",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "start:dev": "nodemon server.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/901david/docker-dashboard.git"
+    "url": "git+https://github.com/901david/dock-hand.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/901david/docker-dashboard/issues"
+    "url": "https://github.com/901david/dock-hand/issues"
   },
-  "homepage": "https://github.com/901david/docker-dashboard#readme",
+  "homepage": "https://github.com/901david/dock-hand#readme",
   "dependencies": {
-    "dockerode": "^3.0.2",
+    "dockerode": "^3.1.0",
     "express": "^4.17.1",
-    "http-proxy-middleware": "^0.20.0",
-    "socket.io": "^2.3.0"
-  },
-  "devDependencies": {
+    "http": "0.0.0",
     "morgan": "^1.9.1",
-    "nodemon": "^2.0.2"
+    "socket.io": "^2.3.0",
+    "stream": "0.0.2"
   }
 }

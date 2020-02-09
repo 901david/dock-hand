@@ -2,7 +2,7 @@ import * as React from "react";
 import styled, { css } from "styled-components";
 import { useMappedState } from "react-use-mapped-state";
 
-interface SearchBarIconWrapperProps {
+interface SearchIconWrapperProps {
   closeIconColor: string;
   magnifyGlassBackground: string;
   magnifyGlassHandleColor: string;
@@ -12,15 +12,13 @@ interface SearchBarIconWrapperProps {
   parentWidth: number;
 }
 
-const SearchBarIconWrapper = styled.div<SearchBarIconWrapperProps>`
+const SearchIconWrapper = styled.div<SearchIconWrapperProps>`
   position: relative;
   margin-left: 15px;
-
   ${({ uniqueId }) => `#${uniqueId}-search-input {
       display: none;
     }
   `}
-
   .text-input {
     visibility: hidden;
     width: 0px;
@@ -28,7 +26,6 @@ const SearchBarIconWrapper = styled.div<SearchBarIconWrapperProps>`
     transition: all 0.5s;
     padding-top: 2.25px;
   }
-
   .text-input:focus,
   .text-input:active,
   .text-input:inactive {
@@ -129,7 +126,7 @@ const SearchBarIconWrapper = styled.div<SearchBarIconWrapperProps>`
   }
 `;
 
-interface SearchBarIconBaseProps {
+interface SearchIconBaseProps {
   magnifyGlassBackground?: string;
   magnifyGlassHandleColor?: string;
   magnifyGlassBorderColor?: string;
@@ -143,7 +140,7 @@ interface SearchBarIconBaseProps {
   clearFilter: () => void;
 }
 
-const SearchBarIcon: React.FC<SearchBarIconBaseProps> = props => {
+export const SearchIcon: React.FC<SearchIconBaseProps> = props => {
   const [{ parentWidth }, valueSetter] = useMappedState({
     parentWidth: 0
   });
@@ -183,7 +180,7 @@ const SearchBarIcon: React.FC<SearchBarIconBaseProps> = props => {
   };
 
   return (
-    <SearchBarIconWrapper
+    <SearchIconWrapper
       parentWidth={parentWidth}
       disabled={props.disabled}
       magnifyGlassBackground={magnifyGlassBackground}
@@ -221,8 +218,6 @@ const SearchBarIcon: React.FC<SearchBarIconBaseProps> = props => {
           <span className="magnify-glass-handle">&nbsp;</span>
         </label>
       </div>
-    </SearchBarIconWrapper>
+    </SearchIconWrapper>
   );
 };
-
-export default SearchBarIcon;

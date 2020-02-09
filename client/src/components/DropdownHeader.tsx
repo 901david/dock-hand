@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
-import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { useMappedState } from "react-use-mapped-state";
 
 const MainContainer = styled.div`
@@ -18,7 +18,6 @@ interface IHeaderContainerProps {
 const HeaderContainer = styled.div<IHeaderContainerProps>`
   display: flex;
   align-items: center;
-
   svg {
     margin-left: 10px;
     font-size: 45px;
@@ -46,7 +45,10 @@ const initialDropdownHeaderState: IinitialDropdownHeaderState = {
   isOpen: false
 };
 
-const DropdownHeader: React.FC<DropdownHeaderProps> = ({ title, children }) => {
+export const DropdownHeader: React.FC<DropdownHeaderProps> = ({
+  title,
+  children
+}) => {
   const containerListRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   const [{ isOpen }, valueSetter] = useMappedState(initialDropdownHeaderState);
@@ -70,5 +72,3 @@ const DropdownHeader: React.FC<DropdownHeaderProps> = ({ title, children }) => {
     </MainContainer>
   );
 };
-
-export default DropdownHeader;

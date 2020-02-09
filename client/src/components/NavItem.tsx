@@ -21,7 +21,7 @@ interface INavItemProps {
   isSelected: boolean;
 }
 
-const NavItem: React.FC<INavItemProps> = ({ data, isSelected }) => {
+export const NavItem: React.FC<INavItemProps> = ({ data, isSelected }) => {
   return (
     <NavItemWrapper isSelected={isSelected}>
       <Link
@@ -33,5 +33,3 @@ const NavItem: React.FC<INavItemProps> = ({ data, isSelected }) => {
     </NavItemWrapper>
   );
 };
-
-export default NavItem;

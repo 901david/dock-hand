@@ -1,7 +1,8 @@
 import * as React from "react";
 import * as _ from "lodash";
+import * as io from "socket.io-client";
 import { useMappedState } from "react-use-mapped-state";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faExpandAlt,
@@ -13,9 +14,10 @@ import {
   faTachometerAlt
 } from "@fortawesome/free-solid-svg-icons";
 
-import SearchIcon from "./SearchIcon";
-import { StartStopIcon } from "./StartStop/StartStop";
-import { socket } from "../App";
+import { SearchIcon } from "./SearchIcon";
+import { StartStop } from "./StartStop";
+
+const socket = io.connect();
 
 interface IContainerListItemWrapperProps {
   isLarge: boolean;
@@ -40,27 +42,22 @@ const LogsHeaderWrapper = styled.div<ILogsHeaderWrapperProps>`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-
   svg {
     font-size: 25px;
   }
-
   .stream-logs-on {
     color: rgb(45, 201, 55);
     cursor: pointer;
   }
-
   .stream-logs-off {
     color: rgb(204, 50, 50);
     cursor: pointer;
   }
-
   .open-filter {
     cursor: ${({ filtersDisabled }) =>
       filtersDisabled ? "not-allowed" : "pointer"};
     color: ${({ filtersDisabled }) => (filtersDisabled ? "#999" : "black")};
   }
-
   .quick-filters {
     cursor: ${({ filtersDisabled }) =>
       filtersDisabled ? "not-allowed" : "pointer"};
@@ -83,13 +80,11 @@ const ContainerHeader = styled.div<IContainerHeaderProps>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   > svg {
     font-size: 35px;
     justify-self: flex-end;
     margin-right: 5px;
   }
-
   > span {
     margin-left: 5px;
   }
@@ -98,11 +93,9 @@ const ContainerHeader = styled.div<IContainerHeaderProps>`
 const ContainerHeaderWrapper = styled.div`
   border-radius: 10px;
   border: 2px solid #f5f5f5;
-
   .expand-card {
     margin-right: 15px;
   }
-
   .remove-container {
     width: 33px;
     height: 33px;
@@ -111,14 +104,12 @@ const ContainerHeaderWrapper = styled.div`
 
 const ContainerIdWrapper = styled.div`
   display: flex;
-
   .success-icon {
     opacity: 0;
     transition: all 1s;
     color: #4bb543;
     margin-left: 3px;
   }
-
   .clipboard-icon {
     margin-left: 3px;
   }
@@ -238,7 +229,6 @@ const LogWrapper = styled.div`
 
 const QuickFilterWrapper = styled.div`
   display: flex;
-
   > input {
     margin-right: 3px;
   }
@@ -246,7 +236,6 @@ const QuickFilterWrapper = styled.div`
 
 const ContainerInfo = styled.div`
   padding: 25px;
-
   &::-webkit-scrollbar {
     display: none;
   }
@@ -327,9 +316,9 @@ export const ContainerListItem: React.FC<Container> = ({
     });
   }, []);
 
-  // React.useEffect(() => {
-  //   updateLogScroll();
-  // }, [logStreams]);
+  //   React.useEffect(() => {
+  //     updateLogScroll();
+  //   }, [logStreams]);
 
   const infoQFApplied = quickFiltersOpen && quickFilterData.INFO;
   const warnQFApplied = quickFiltersOpen && quickFilterData.WARN;
@@ -344,18 +333,13 @@ export const ContainerListItem: React.FC<Container> = ({
   );
 
   const reg = new RegExp(`${filterToUse.join("|")}`, "g");
-
-  // const dataToUse =
-  //   inputText.length !== 0 || quickFiltersApplied
-  //     ? logStreams.filter((stream: string) => {
-  //         if (stream === null || stream === undefined) return false;
-  //         return stream.match(reg) !== null
-  //           ? stream.match(reg).length > 0
-  //           : false;
-  //       })
-  //     : logStreams;
-
-  const dataToUse = logStreams;
+  //TODO: Waht causing this
+  const dataToUse =
+    inputText.length !== 0 || quickFiltersApplied
+      ? logStreams.filter((stream: string) =>
+          stream.match(reg) ? (stream.match(reg) as any).length > 0 : false
+        )
+      : logStreams;
 
   const changeSize = (isLarge: boolean) => {
     valueSetter("isLarge", !isLarge);
@@ -372,7 +356,9 @@ export const ContainerListItem: React.FC<Container> = ({
       inputRef.current.style.display = "none";
       copySuccessRef.current.style.opacity = "1";
       setTimeout(() => {
-        if (copySuccessRef.current) copySuccessRef.current.style.opacity = "0";
+        if (copySuccessRef.current) {
+          copySuccessRef.current.style.opacity = "0";
+        }
       }, 2000);
     }
   };
@@ -413,20 +399,18 @@ export const ContainerListItem: React.FC<Container> = ({
     valueSetter("quickFiltersOpen", !quickFiltersOpen);
   };
 
-  console.log("render");
-
   return (
     <ContainerListItemWrapper isLarge={isLarge} className="give-transition">
       <ContainerHeaderWrapper>
         <ContainerHeader>
           <SubHeaderWrapper>
             <span>{name}</span>
-            <StartStopIcon
+            <StartStop
               handleAction={onActionButtonClick}
               type={isRunning ? "stop" : "start"}
             />
             {!isRunning && (
-              <StartStopIcon
+              <StartStop
                 classToAdd="remove-container"
                 handleAction={onRemoveContainer}
                 type="stop"

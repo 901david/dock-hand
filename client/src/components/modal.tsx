@@ -17,6 +17,8 @@ export const Modal: React.FC<ModalProperties> = ({
   const modalElementId = `#${id}`;
 
   const onPrimaryButtonClick = () => {
+    //TODO: what?
+    // Delegate to the generic button handler defined by the inheriting component
     if (onButtonClicked) {
       if (onButtonClicked() !== false) {
         ($(modalElementId) as any).modal("hide");

@@ -3,7 +3,7 @@ import { useMappedState } from "react-use-mapped-state";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
-import NavItem from "./NavItem";
+import { NavItem } from "./NavItem";
 
 const NavWrapper = styled.div`
   background: black;
@@ -11,11 +11,9 @@ const NavWrapper = styled.div`
   height: 50px;
   color: white;
   display: flex;
-
   &:first-child {
     margin-left: 20px;
   }
-
   a,
   a:visited,
   a:active {
@@ -39,8 +37,7 @@ const navOptions: NavOptions = [
   //   { icon: null, title: "New Compose File", path: "/new/compose/create" }
 ];
 
-const NavBar: React.FC<{ location?: any }> = props => {
-  console.log(props.location);
+const NavBarBase: React.FC<{ location?: any }> = props => {
   return (
     <NavWrapper>
       {navOptions.map(navOption => {
@@ -54,5 +51,4 @@ const NavBar: React.FC<{ location?: any }> = props => {
     </NavWrapper>
   );
 };
-
-export default withRouter(NavBar);
+export const NavBar = withRouter(NavBarBase);

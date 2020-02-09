@@ -1,12 +1,12 @@
-import React from "react";
+import * as React from "react";
 import * as _ from "lodash";
-import io from "socket.io-client";
+import * as io from "socket.io-client";
 
 import styled from "styled-components";
 import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
 
-import NavBar from "./components/NavBar";
-import Dashboard from "./components/Dashboard";
+import { NavBar } from "./components/NavBar";
+import { Dashboard } from "./components/Dashboard";
 import { NewContainerDialog } from "./components/newContainerModal";
 
 const Header = styled.div`
@@ -18,7 +18,6 @@ const Header = styled.div`
   align-items: center;
   padding-left: 25px;
   padding-right: 25px;
-
   img {
     width: 100px;
     height: 100px;
@@ -31,7 +30,7 @@ const AppTitle = styled.h1`
   font-size: 45px;
 `;
 
-export const socket = io.connect();
+const socket = io.connect();
 
 export const App: React.FC<{}> = () => {
   const onRunImage = (name: String): void => {
@@ -45,14 +44,13 @@ export const App: React.FC<{}> = () => {
           <img src="https://i.ya-webdesign.com/images/transparent-whale-docker-2.png" />
         </Header>
         <NavBar />
-        <Route exact path="/" component={() => <Redirect to="/dashboard" />} />
         <Route exact path="/dashboard" component={() => <Dashboard />} />
         {/* <Route
           exact
           path="/new/container"
           component={() => <p>New Container just trigger model</p>}
         /> */}
-        <Route
+        {/* <Route
           exact
           path="/cluster/start"
           component={() => <p>Cluster Start</p>}
@@ -61,7 +59,7 @@ export const App: React.FC<{}> = () => {
           exact
           path="/cluster/create"
           component={() => <p>Cluster Create</p>}
-        />
+        /> */}
         <NewContainerDialog id="newContainerModal" onRunImage={onRunImage} />
       </div>
     </Router>

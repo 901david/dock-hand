@@ -1,8 +1,8 @@
-import React from "react";
+import * as React from "react";
 import classNames from "classnames";
-import { useMappedState, valueSetter } from "react-use-mapped-state";
+import { useMappedState } from "react-use-mapped-state";
 
-import { Modal } from "./modal";
+import { Modal } from "./Modal";
 
 interface ModalProps {
   id: string;

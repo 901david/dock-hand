@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import { Container, ContainerListItem } from "./ContainerListItem";
+import { ContainerListItem, Container } from "./ContainerListItem";
 
 interface ContainerListProps {
   containers: Container[];
