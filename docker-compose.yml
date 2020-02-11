@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  client:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./
+    volumes:
+      - "/node_modules"
+      - "./client:/client"
+    ports:
+      - "5642:5642"
+      - "3000:3000"

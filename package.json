@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "start:dev": "concurrently \"nodemon server.js\" \"cd client && npm run start\""
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,9 @@
     "morgan": "^1.9.1",
     "socket.io": "^2.3.0",
     "stream": "0.0.2"
+  },
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "nodemon": "^2.0.2"
   }
 }

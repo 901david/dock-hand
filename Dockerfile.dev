@@ -1,0 +1,9 @@
+FROM node:alpine
+
+WORKDIR "/dock-hand"
+
+COPY package.json .
+
+COPY . .
+
+CMD ["npm", "run", "start:dev"]

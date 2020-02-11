@@ -19,8 +19,13 @@ const ContainerListWrapper = styled.div<IContainerListWrapperProps>`
 
 export const ContainerList: React.FC<ContainerListProps> = ({ containers }) => {
   return (
-    <ContainerListWrapper hasContainers={containers.length !== 0}>
-      {containers.length === 0 && <h1>No containers to show</h1>}
+    <ContainerListWrapper
+      data-testid="container-list-wrapper"
+      hasContainers={containers.length !== 0}
+    >
+      {containers.length === 0 && (
+        <h1 data-testid="no-containers">No containers to show</h1>
+      )}
       {containers.map(container => (
         <ContainerListItem key={container.name} {...container} />
       ))}

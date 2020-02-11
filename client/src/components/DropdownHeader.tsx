@@ -66,7 +66,10 @@ export const DropdownHeader: React.FC<DropdownHeaderProps> = ({
         <h1>{title}</h1>
         <FontAwesomeIcon onClick={handleArrowClick} icon={faChevronDown} />
       </HeaderContainer>
-      <ContainerListContainer ref={containerListRef}>
+      <ContainerListContainer
+        data-testid="container-wrapper"
+        ref={containerListRef}
+      >
         {children}
       </ContainerListContainer>
     </MainContainer>

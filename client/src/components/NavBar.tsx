@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useMappedState } from "react-use-mapped-state";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
@@ -28,21 +27,33 @@ export interface NavOption {
   icon: any | null;
   title: string;
   path: string;
+  testId: string;
 }
 
 const navOptions: NavOptions = [
-  { icon: null, title: "Dashboard", path: "/dashboard" },
-  { icon: null, title: "New Container", path: "#newContainerModal" }
+  {
+    icon: null,
+    title: "Dashboard",
+    path: "/dashboard",
+    testId: "dashboard-btn"
+  },
+  {
+    icon: null,
+    title: "New Container",
+    path: "#newContainerModal",
+    testId: "new-container-btn"
+  }
   //   { icon: null, title: "New Compose Cluster", path: "/new/compose/start" },
   //   { icon: null, title: "New Compose File", path: "/new/compose/create" }
 ];
 
 const NavBarBase: React.FC<{ location?: any }> = props => {
   return (
-    <NavWrapper>
-      {navOptions.map(navOption => {
+    <NavWrapper data-testid="nav-wrapper">
+      {navOptions.map((navOption, index) => {
         return (
           <NavItem
+            key={index + 876}
             isSelected={props.location.pathname === navOption.path}
             data={navOption}
           />

@@ -23,7 +23,7 @@ interface INavItemProps {
 
 export const NavItem: React.FC<INavItemProps> = ({ data, isSelected }) => {
   return (
-    <NavItemWrapper isSelected={isSelected}>
+    <NavItemWrapper data-testid={data.testId} isSelected={isSelected}>
       <Link
         data-toggle={data.path.indexOf("/") === -1 ? "modal" : ""}
         to={data.path}

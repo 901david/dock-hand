@@ -44,6 +44,7 @@ export const App: React.FC<{}> = () => {
           <img src="https://i.ya-webdesign.com/images/transparent-whale-docker-2.png" />
         </Header>
         <NavBar />
+        <Route exact path="/" component={() => <Redirect to="/dashboard" />} />
         <Route exact path="/dashboard" component={() => <Dashboard />} />
         {/* <Route
           exact
