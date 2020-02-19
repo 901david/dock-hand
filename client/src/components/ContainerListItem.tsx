@@ -333,7 +333,7 @@ export const ContainerListItem: React.FC<Container> = ({
   );
 
   const reg = new RegExp(`${filterToUse.join("|")}`, "g");
-  //TODO: Waht causing this
+
   const dataToUse =
     inputText.length !== 0 || quickFiltersApplied
       ? logStreams.filter((stream: string) =>

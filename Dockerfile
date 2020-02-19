@@ -1,16 +1,19 @@
+FROM node:alpine as builder
+
+WORKDIR /client
+
+COPY ./client ./
+
+RUN npm install && npm run build
+
 FROM node:alpine
 
-WORKDIR "/dock-hand"
+COPY --from=builder /client/build/ /dist/
 
-COPY ./client ./client
+COPY package*.json ./
 
-RUN cd client && npm install && npm run build
-
-COPY package.json .
+COPY server.js ./
 
 RUN npm install
-
-COPY . .
-
 
 CMD ["npm", "run", "start"]
