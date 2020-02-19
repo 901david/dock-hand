@@ -68,9 +68,10 @@ export const Dashboard: React.FC<DashboardProps> = () => {
         containers,
         (c: any) => c.State == "running"
       );
-
-      valueSetter("containers", partitioned[0].map(mapContainer));
-      valueSetter("stoppedContainers", partitioned[1].map(mapContainer));
+      valueSetter(
+        ["containers", "stoppedContainers"],
+        [partitioned[0].map(mapContainer), partitioned[1].map(mapContainer)]
+      );
     });
   }, []);
 

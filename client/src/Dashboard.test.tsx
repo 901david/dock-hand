@@ -2,8 +2,7 @@ import React from "react";
 import { render, RenderResult, fireEvent, act } from "@testing-library/react";
 import { Dashboard } from "./components/Dashboard";
 import { screen } from "@testing-library/dom";
-
-const SocketMock: any = jest.genMockFromModule("socket.io-client");
+import SocketMock from "socket.io-mock";
 
 const startedContainers = [
   {
@@ -131,18 +130,12 @@ const stoppedContainers = [
   }
 ];
 
-SocketMock.emit = (message: string) => {
-  if ("containers.list") {
-    return startedContainers.concat(stoppedContainers);
-  }
-};
-
 describe("Dashboard level Integration tests", () => {
-  let returnValues: RenderResult;
+  let returnValues;
+  const socket = new SocketMock();
 
   beforeEach(() => {
     returnValues = render(<Dashboard />);
-    SocketMock.emit("containers.list");
   });
 
   test("renders dashboard text on load", () => {
@@ -190,7 +183,11 @@ describe("Dashboard level Integration tests", () => {
     expect(stoppedContainersTitle).toBeInTheDocument();
   });
 
-  test.skip("should render correct number of started coontainers", () => {
+  test("should render correct number of started coontainers", () => {
+    socket.socketClient.emit(
+      "containers.list",
+      startedContainers.concat(stoppedContainers)
+    );
     const { getAllByTestId } = returnValues;
     const [runningContainersEl, stoppedContainersEl] = getAllByTestId(
       "container-list-wrapper"
