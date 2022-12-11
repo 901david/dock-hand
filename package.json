@@ -20,7 +20,7 @@
   "homepage": "https://github.com/901david/dock-hand#readme",
   "dependencies": {
     "dockerode": "^3.1.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "http": "0.0.0",
     "morgan": "^1.9.1",
     "socket.io": "^2.3.0",
